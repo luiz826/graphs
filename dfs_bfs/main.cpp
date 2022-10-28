@@ -2,6 +2,7 @@
 #include <queue>
 #include <vector>
 #include <stack>
+#include <fstream>
 
 using namespace std;
 
@@ -12,36 +13,65 @@ stack<int> P;
 
 class Graph {
     public:
-        int v;
+        int lenV;
+        string textFile;
         vector<int> *adjList;
         vector<int> *parent;
         vector<int> *level;
         vector<int> *L;
 
-        Graph(int v);
+        Graph(string textFile);
         
-        void dfs(void);
-        void bfs(void);
+        void dfs(int v);
+        void bfs(int v);
+        void initGraph(void);
         void fillIndexAndParent(void);
 };
 
-Graph::Graph(int v) {
-    this -> v = v;
+Graph::Graph(string textFile) {
+    this -> textFile = textFile;
+    this -> lenV;
 
-    adjList = new vector<int>[v];
-    L = new vector<int>[v];
-    parent = new vector<int>[v];
-    level = new vector<int>[v];
+    adjList = new vector<int>[lenV];
+    L = new vector<int>[lenV];
+    parent = new vector<int>[lenV];
+    level = new vector<int>[lenV];
 }
 
-void Graph::fillIndexAndParent(void){
-    for (int i = 0; i < v; i++) {
+void Graph::fillIndexAndParent(void) {
+    for (int i = 0; i < lenV; i++) {
         parent[i].push_back(-1); 
         L[i].push_back(0);
     }
 }
 
-void Graph::dfs(void) {
+
+void Graph::initGraph(void) {
+    ifstream graphFile;
+    int isConected;
+
+    graphFile.open(textFile);
+
+    // number of vertices
+    graphFile >> lenV; 
+     
+    for (int i=1; i< lenV+1; i++) {
+        for (int j = i; j < lenV; j++) {
+            graphFile >> isConected;
+            if (isConected) {
+                adjList[i].push_back(j);
+                adjList[j].push_back(i);    
+            }
+            
+        }
+        cout << endl;
+    }  
+
+
+    graphFile.close();
+}
+
+void Graph::dfs(int v) {
     while (!F.empty()) {
         int v = F.front();
         F.pop();
@@ -72,7 +102,7 @@ void Graph::dfs(void) {
     }
 }           
 
-void Graph::bfs(void) {
+void Graph::bfs(int v) {
     while (!P.empty()) {
         int v = P.top();
         P.pop();
@@ -107,23 +137,25 @@ void Graph::bfs(void) {
 
 
 int main(void) {       
-    int len_v;
-    int a;
-    cin >> len_v;
-    cout << "N " << len_v << endl;
+    // int len_v;
+    // int a;
+    // cin >> len_v;
+    // cout << "N " << len_v << endl;
 
-    for (int i=1; i< len_v+1; i++) {
-        for (int j = i; j < len_v; j++) {
-            cin >> a;
-            cout << "(" << i << ", " << j << ") -> " << a << " | ";
-        }
-        cout << endl;
-    }
+    // for (int i=1; i< len_v+1; i++) {
+    //     for (int j = i; j < len_v; j++) {
+    //         cin >> a;
+    //         cout << "(" << i << "," << j << ") -> " << a << " | ";
+    //     }
+    //     cout << endl;
+    // }
     // int v = 0;
 
-    // Graph g(len_v);
-    // g.fillIndexAndParent();
-        
+    Graph g("instance.txt");
+    g.fillIndexAndParent();
+    g.initGraph();
+    cout << g.lenV << endl;
+    cout << g.adjList << endl;
     // g.level[v].push_back(0);
     // t += 1;
     // g.L[v].push_back(t);
