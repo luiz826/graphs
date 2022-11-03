@@ -28,8 +28,9 @@ class Graph {
         void fillIndexAndParent(void);
 };
 
-Graph::Graph(int lenV) {
-    this -> lenV;
+Graph::Graph(int l): lenV(l)  {
+    // Isso de cima é o mesmo que lenV = l;
+    this -> lenV; 
 
     adjList = new list<int>[lenV];
     L = new vector<int>[lenV];
@@ -38,6 +39,7 @@ Graph::Graph(int lenV) {
 }
 
 void Graph::fillIndexAndParent(void) {
+    // cout << lenV << endl;
     for (int i = 0; i < lenV; i++) {
         parent[i].push_back(-1); 
         L[i].push_back(0);
