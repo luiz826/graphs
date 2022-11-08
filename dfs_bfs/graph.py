@@ -1,7 +1,7 @@
 t = 0
+
 class Graph:
-    
-    def __init__(self):
+    def __init__(self) -> None:
         self.adj_list = []
         self.distances = {}
         self.parent = {}
@@ -11,7 +11,7 @@ class Graph:
         self.result = []
         
         
-    def read_graph(self, file):
+    def read_graph(self, file: str) -> None:
         
         with open(file, "r") as f:
             for i, obj in enumerate(f.readlines()):
@@ -25,10 +25,10 @@ class Graph:
         self.enter_depth = [0]*self.n
         self.exit_depth = [0]*self.n
     
-        return self.adj_list
+       
 
     
-    def bfs(self, start): # Largura
+    def bfs(self, start: int) -> None: 
         t = 0
         bfs_index = [0]*self.n 
         levels = [0]*self.n
@@ -36,17 +36,19 @@ class Graph:
 
         queue = [start]
         
+        
         while queue:
             node = queue.pop(0)
             t += 1
             bfs_index[node-1] = t
-
+            
             for i in self.adj_list[node-1]:
                 if bfs_index[i-1] == 0:
-                    queue.append(i)
+                    parent[i-1] = node-1
+                    levels[i-1] = levels[node-1] + 1
                     t += 1
                     bfs_index[i-1] = t
-                    levels[i-1] = levels[node-1] + 1
+                    queue.append(i)
                     if node < i:
                         self.result.append(f"{node},{i},false,'0,0,255'\n")
                     else:
@@ -70,7 +72,7 @@ class Graph:
                     
 
         
-    def dfs(self, start):
+    def dfs(self, start: int) -> None:
         global t
         t += 1
         self.enter_depth[start-1] = t 
@@ -90,28 +92,20 @@ class Graph:
         t += 1
         self.exit_depth[start-1] = t
     
-    def generate_solution(self, file_name):
-        g.result = sorted(g.result, key = lambda x: (int(x.split(",")[0]), int(x.split(",")[1])))
 
-        with open(f"{file_name}.gdf", "w") as f:
-            f.write("nodedef>name VARCHAR,label VARCHAR\n")
-            for i in range(1, g.n+1):
-                f.write(f"{i},{i}\n")
-            f.write("edgedef>node1 VARCHAR,node2 VARCHAR,directed BOOLEAN,color VARCHAR\n")
-            
-            for i in g.result:
-                f.write(i)
+def generate_solution(g: Graph, file_name: str) -> None:
+    global t
+    g.result = sorted(g.result, key = lambda x: (int(x.split(",")[0]), int(x.split(",")[1])))
 
-        g.result = []
-        t = 0
+    with open(f"{file_name}.gdf", "w") as f:
+        f.write("nodedef>name VARCHAR,label VARCHAR\n")
+        for i in range(1, g.n+1):
+            f.write(f"{i},{i}\n")
+        f.write("edgedef>node1 VARCHAR,node2 VARCHAR,directed BOOLEAN,color VARCHAR\n")
         
-g =  Graph()
+        for i in g.result:
+            f.write(i)
 
-g.read_graph("graph_1")
-
-g.dfs(1)
-g.generate_solution("graph_1_dfs1")
-
-
-g.bfs(1)
-g.generate_solution("graph_1_bfs1")
+    g.result = []
+    t = 0
+        
