@@ -1,3 +1,7 @@
+'''
+    Alunos: Caio Lucas da Silva Chacon e Luiz Fernando Costa dos Santos
+'''
+
 from graph import *
 
 if __name__ == "__main__":

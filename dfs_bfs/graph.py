@@ -1,3 +1,7 @@
+'''
+    Alunos: Caio Lucas da Silva Chacon e Luiz Fernando Costa dos Santos
+'''
+
 t = 0
 
 class Graph:
