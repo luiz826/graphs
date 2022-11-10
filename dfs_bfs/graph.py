@@ -25,8 +25,6 @@ class Graph:
         self.enter_depth = [0]*self.n
         self.exit_depth = [0]*self.n
     
-       
-
     
     def bfs(self, start: int) -> None: 
         t = 0
@@ -35,7 +33,6 @@ class Graph:
         parent = [None]*self.n
 
         queue = [start]
-        
         
         while queue:
             node = queue.pop(0)
@@ -69,9 +66,10 @@ class Graph:
                         self.result.append(f"{node},{i},false,'0,255,0'\n")
                     else:
                         self.result.append(f"{i},{node},false,'0,255,0'\n")
-                    
-
+    
+        return levels
         
+
     def dfs(self, start: int) -> None:
         global t
         t += 1
