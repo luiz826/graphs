@@ -1,8 +1,7 @@
 from graph import *
 
 if __name__ == "__main__":
-    # number of instances
-    n_inst = 20
+    n_inst = 20 # number of instances
     eccentricity = []
     apv = [] # Average path lenght 
     

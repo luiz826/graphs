@@ -3,7 +3,6 @@ t = 0
 class Graph:
     def __init__(self) -> None:
         self.adj_list = []
-        self.distances = {}
         self.parent = {}
         self.enter_depth = []
         self.exit_depth = []
@@ -26,7 +25,7 @@ class Graph:
         self.exit_depth = [0]*self.n
     
     
-    def bfs(self, start: int) -> None: 
+    def bfs(self, start: int) -> list: 
         t = 0
         bfs_index = [0]*self.n 
         levels = [0]*self.n
